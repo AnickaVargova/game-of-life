@@ -2,9 +2,7 @@ import { useState } from "react";
 import Board from "./Board";
 
 function App() {
-
- 
-  const [boardInfo, setBoardInfo] = useState([
+  const defaultState = [
     [true, false, true, true, false, true, false, false, true],
     [false, false, true, false, true, false, true, false, false],
     [true, false, true, true, false, true, false, false, true],
@@ -15,7 +13,9 @@ function App() {
     [false, false, false, false, true, false, true, false, false],
     [true, false, true, false, false, true, false, false, true],
     [false, false, true, false, true, true, true, false, false],
-  ]);
+  ]
+ 
+  const [boardInfo, setBoardInfo] = useState(defaultState);
 
   function changeAlive(arr) {
     let changedBoard = [];
@@ -85,6 +85,11 @@ function App() {
   const [playGame, setPlayGame] = useState(null);
 
   function startGame() {
+
+    //nefunguje uplne - nastavi vychozi stav, ale setPlayGame pouziva boardInfo, ktere bylo predtim
+    setBoardInfo(defaultState);
+    setPlayGame(null);
+    clearInterval(playGame);
     setPlayGame(setInterval(() => changeAlive(boardInfo), tempo));
   }
 
@@ -108,14 +113,14 @@ function App() {
     setBoardInfo(newBoard);
   }
 
-  function changeTempo(e) {
+  function changeTempo(num) {
     if (playGame) {
       clearInterval(playGame);
       setPlayGame(null);
-      let newTempo = e.target.value;
+      let newTempo = num;
       setPlayGame(setInterval(() => changeAlive(boardInfo), newTempo));
     } else {
-      setTempo(e.target.value);
+      setTempo(num);
     }
   }
 
@@ -130,7 +135,7 @@ function App() {
       </div>
       <div id="tempo">
         <span>Set the speed of changes: </span>
-        <select value={tempo} onChange={(e) => changeTempo(e)}>
+        <select value={tempo} onChange={(e) => changeTempo(e.target.value)}>
           <option value="50">0.05 s</option>
           <option value="300">0.3 s</option>
           <option value="500">0.5 s</option>
