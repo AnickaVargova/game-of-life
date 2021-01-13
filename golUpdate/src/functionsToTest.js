@@ -1,8 +1,8 @@
+  import countItemNeighbours from './countItemNeighbours';
 
-  
-  function changeAlive1(arr) {
+  export function neighbours1(arr) {
     let neighboursArray = [];
-
+   
     for (let j = 0; j < arr.length; j++) {
       for (let i = 0; i < arr[j].length; i++) {
         let neighbours = [];
@@ -30,7 +30,30 @@
     return neighboursArray;
   }
 
-  
+  export function neighbours2(arr) {
+    let neighboursArray = [];
+    for (let j = 0; j < arr.length; j++) {
+      for (let i = 0; i < arr[j].length; i++) {
+       
+        neighboursArray.push(countItemNeighbours(j,i,arr));
+      }
+    }
+    return neighboursArray;
+  }
 
+  export function updateSquare(boardInfo,index,rowIndex){
+    boardInfo[rowIndex][index] = !boardInfo[rowIndex][index];
 
-module.exports = changeAlive1;
+    let newRow = boardInfo[rowIndex]
+      .slice(0, index)
+      .concat(boardInfo[rowIndex][index])
+      .concat(boardInfo[rowIndex].slice(index + 1));
+
+    let newBoard = boardInfo
+      .slice(0, rowIndex)
+      .concat([newRow])
+      .concat(boardInfo.slice(rowIndex + 1));
+
+    return newBoard;
+  }
+
