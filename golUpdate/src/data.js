@@ -1,4 +1,4 @@
-const startData = [
+const data = [
     [
       true,
       false,
@@ -441,4 +441,4 @@ const startData = [
     ],
   ];
 
-  export default startData;
+  export default data;

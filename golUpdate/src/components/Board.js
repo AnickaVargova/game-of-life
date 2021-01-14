@@ -1,5 +1,6 @@
 import Row from "./Row";
 
+
 const Board = ({board,handleClick}) => {
   return (
     <tbody>

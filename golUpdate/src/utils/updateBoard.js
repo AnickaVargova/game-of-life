@@ -1,7 +1,9 @@
 import countItemNeighbours from "./countItemNeighbours";
 
-function updateBoard(arr) {
+function updateBoard(oldArr) {
   let changedBoard = [];
+
+  let arr = oldArr.map(row=>row.slice());
 
   for (let j = 0; j < arr.length; j++) {
     let changedRow = [];
@@ -21,7 +23,7 @@ function updateBoard(arr) {
     }
     changedBoard.push(changedRow);
   }
-
+ 
   return changedBoard;
 }
 

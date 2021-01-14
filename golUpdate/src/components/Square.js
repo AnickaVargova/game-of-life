@@ -1,13 +1,36 @@
+import styled from "styled-components";
 
-const Square = ({handleClick, squareInfo}) => (
-  
-  <td>
+const BlackSquare = styled.div`
+  height: 20px;
+  width: 20px;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+`;
+
+const WhiteSquare = styled.div`
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+`;
+
+const Cell = styled.td`
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  padding: 0;
+`;
+
+const Square = ({ handleClick, squareInfo }) => (
+  <Cell>
     {squareInfo ? (
-      <div className="blackSquare" onClick={handleClick}></div>
+      <BlackSquare onClick={handleClick} />
     ) : (
-      <div className="whiteSquare" onClick={handleClick}></div>
+      <WhiteSquare onClick={handleClick} />
     )}
-  </td>
+  </Cell>
 );
 
 export default Square;

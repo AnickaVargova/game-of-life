@@ -1,20 +1,55 @@
 import { useState, useEffect } from "react";
 import Board from "./Board";
-import startData from "../data/startData";
+import data from "../data";
 import updateBoard from "../utils/updateBoard";
-import resetData from "../data/resetData";
 import updateSquare from "../utils/updateSquare";
 import styled from "styled-components";
 
+const Table = styled.table`
+  border: 1px solid black;
+  margin: auto;
+  margin-top: 100px;
+  padding: 0;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+`;
+
+const Button = styled.button`
+  margin: 10px;
+  margin-top: 20px;
+  color: white;
+  background-color: blue;
+  border-radius: 5px;
+  padding: 10px;
+`;
+
+const Tempo = styled.div`
+  text-align: center;
+  margin-top: 20px;
+  height: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+`;
+
 const App = () => {
-  const [boardInfo, setBoardInfo] = useState(startData);
+  const [boardInfo, setBoardInfo] = useState(data);
   const [tempo, setTempo] = useState(500);
   const [playGame, setPlayGame] = useState(null);
 
   function startGame() {
     if (!playGame) {
       setPlayGame(
-        setInterval(() => setBoardInfo(updateBoard(boardInfo)), tempo)
+        setInterval(
+          () => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo)),
+          tempo
+        )
       );
     }
   }
@@ -24,50 +59,47 @@ const App = () => {
   function stopGame() {
     if (playGame) {
       clearInterval(playGame);
-      setPlayGame(null);
+      setPlayGame(() => null);
     }
   }
 
   function resetGame() {
     clearInterval(playGame);
-    setPlayGame(null);
-    let resetDataCopy = resetData.map((row) => row.slice());
-    setBoardInfo(resetDataCopy);
+    setPlayGame(() => null);
+    setBoardInfo(data);
   }
 
   function handleClick(index, rowIndex) {
-    setBoardInfo(updateSquare(boardInfo, index, rowIndex));
+    setBoardInfo((prevBoardInfo) =>
+      updateSquare(prevBoardInfo, index, rowIndex)
+    );
   }
 
   function changeTempo(num) {
     if (playGame) {
       clearInterval(playGame);
-      setPlayGame(null);
-      setPlayGame(setInterval(() => setBoardInfo(updateBoard(boardInfo)), num));
+      setPlayGame(() => null);
+      setPlayGame(
+        setInterval(
+          () => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo)),
+          num
+        )
+      );
     }
-    setTempo(num);
+    setTempo(() => num);
   }
-
-  
-  const Table = styled.table`
-    border: 1px solid black;
-    margin: auto;
-    margin-top: 100px;
-    padding: 0;
-  `;
-  
 
   return (
     <div className="App">
       <Table>
         <Board board={boardInfo} handleClick={handleClick} />
       </Table>
-      <div id="buttons">
-        <button onClick={stopGame}>Stop</button>
-        <button onClick={startGame}>Play</button>
-        <button onClick={resetGame}>Reset</button>
-      </div>
-      <div id="tempo">
+      <Buttons>
+        <Button onClick={stopGame}>Stop</Button>
+        <Button onClick={startGame}>Play</Button>
+        <Button onClick={resetGame}>Reset</Button>
+      </Buttons>
+      <Tempo>
         <span>Set the speed of changes: </span>
         <select value={tempo} onChange={(e) => changeTempo(e.target.value)}>
           <option value="50">0.05 s</option>
@@ -76,7 +108,7 @@ const App = () => {
           <option value="700">0.7 s</option>
           <option value="2000">2 s</option>
         </select>
-      </div>
+      </Tempo>
     </div>
   );
 };
