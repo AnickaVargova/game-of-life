@@ -1,12 +1,12 @@
 import Square from "./Square";
 
-const Row = (props) => (
+const Row = ({rowInfo, rowIndex, handleClick}) => (
   <tr>
-    {props.rowInfo.map((square, index) => (
+    {rowInfo.map((square, index) => (
       <Square
         squareInfo={square}
         key={index}
-        handleClick={() => props.handleClick(index, props.rowIndex)}
+        handleClick={() => handleClick(index, rowIndex)}
       />
     ))}
   </tr>

@@ -28,8 +28,8 @@ function countItemNeighbours(j, i, arr) {
       arr[j][i + 1],
     ];
   }
-
-  return  neighbours.filter((item) => item).length;
+  let livingNeighbours = neighbours.filter((item) => item).length;
+  return livingNeighbours;
 }
 
 export default countItemNeighbours;

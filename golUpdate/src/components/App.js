@@ -1,26 +1,21 @@
 import { useState, useEffect } from "react";
 import Board from "./Board";
-import data from "./data";
-import updateBoard from "./updateBoard";
-import defaultState from "./defaultState";
-import { updateSquare } from "./functionsToTest";
+import startData from "../data/startData";
+import updateBoard from "../utils/updateBoard";
+import resetData from "../data/resetData";
+import updateSquare from "../utils/updateSquare";
+import styled from "styled-components";
 
 const App = () => {
-  const [boardInfo, setBoardInfo] = useState(data);
-  // const [originalData, setOriginalData] = useState(defaultState);
-
-  // useEffect(()=>setOriginalData(defaultState))
-
-  function changeAlive(arr) {
-    setBoardInfo(updateBoard(arr));
-  }
-
+  const [boardInfo, setBoardInfo] = useState(startData);
   const [tempo, setTempo] = useState(500);
   const [playGame, setPlayGame] = useState(null);
 
   function startGame() {
     if (!playGame) {
-      setPlayGame(setInterval(() => changeAlive(boardInfo), tempo));
+      setPlayGame(
+        setInterval(() => setBoardInfo(updateBoard(boardInfo)), tempo)
+      );
     }
   }
 
@@ -36,8 +31,8 @@ const App = () => {
   function resetGame() {
     clearInterval(playGame);
     setPlayGame(null);
-    setBoardInfo(defaultState);
-    //nefunguje
+    let resetDataCopy = resetData.map((row) => row.slice());
+    setBoardInfo(resetDataCopy);
   }
 
   function handleClick(index, rowIndex) {
@@ -48,19 +43,25 @@ const App = () => {
     if (playGame) {
       clearInterval(playGame);
       setPlayGame(null);
-      let newTempo = num;
-      setPlayGame(setInterval(() => changeAlive(boardInfo), newTempo));
-      setTempo(num);
-    } else {
-      setTempo(num);
+      setPlayGame(setInterval(() => setBoardInfo(updateBoard(boardInfo)), num));
     }
+    setTempo(num);
   }
+
+  
+  const Table = styled.table`
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 100px;
+    padding: 0;
+  `;
+  
 
   return (
     <div className="App">
-      <table>
+      <Table>
         <Board board={boardInfo} handleClick={handleClick} />
-      </table>
+      </Table>
       <div id="buttons">
         <button onClick={stopGame}>Stop</button>
         <button onClick={startGame}>Play</button>
