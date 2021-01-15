@@ -1,5 +1,6 @@
 import countItemNeighbours from "./utils/countItemNeighbours";
 import updateSquare from "./utils/updateSquare";
+import updateBoard from "./utils/updateBoard";
 
 function neighbours(arr) {
   let neighboursArray = [];
@@ -21,6 +22,13 @@ const boardInfo = [
 const expectedNeighbours = [2, 3, 2, 3, 5, 2, 4, 5, 4, 2, 3, 2];
 
 const expectedChangedBoard = [
+  [true,true,false],
+  [true,false,true],
+  [false,false,true],
+  [false,true,true]
+]
+
+const expectedChangedSquare = [
   [false, true, false],
   [true, false, true],
   [false, true, false],
@@ -32,6 +40,9 @@ describe("test", () => {
     expect(neighbours(boardInfo)).toEqual(expectedNeighbours);
   });
   test("test2", () => {
-    expect(updateSquare(boardInfo, 0, 0)).toEqual(expectedChangedBoard);
+    expect(updateSquare(boardInfo, 0, 0)).toEqual(expectedChangedSquare);
+  });
+  test("test3", () => {
+    expect(updateBoard(boardInfo)).toEqual(expectedChangedBoard);
   });
 });

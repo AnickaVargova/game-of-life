@@ -100,13 +100,13 @@ const App = () => {
         <Button onClick={resetGame}>Reset</Button>
       </Buttons>
       <Tempo>
-        <span>Set the speed of changes: </span>
+        <span>Change the speed: </span>
         <select value={tempo} onChange={(e) => changeTempo(e.target.value)}>
-          <option value="50">0.05 s</option>
+          <option value="50">0.05 s (very fast)</option>
           <option value="300">0.3 s</option>
-          <option value="500">0.5 s</option>
+          <option value="500">0.5 s (medium)</option>
           <option value="700">0.7 s</option>
-          <option value="2000">2 s</option>
+          <option value="2000">2 s (very slow)</option>
         </select>
       </Tempo>
     </div>
