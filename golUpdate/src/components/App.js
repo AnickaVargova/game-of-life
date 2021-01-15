@@ -58,14 +58,15 @@ const App = () => {
 
   function stopGame() {
     if (playGame) {
-      clearInterval(playGame);
-      setPlayGame(() => null);
+      setPlayGame((prevPlayGame) => {
+        clearInterval(prevPlayGame);
+        return null;
+      });
     }
   }
 
   function resetGame() {
-    clearInterval(playGame);
-    setPlayGame(() => null);
+    stopGame();
     setBoardInfo(data);
   }
 
@@ -77,8 +78,11 @@ const App = () => {
 
   function changeTempo(num) {
     if (playGame) {
-      clearInterval(playGame);
-      setPlayGame(() => null);
+      setPlayGame((prevPlayGame) => {
+        clearInterval(prevPlayGame);
+        return null;
+      });
+
       setPlayGame(
         setInterval(
           () => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo)),
