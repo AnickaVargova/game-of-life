@@ -17,7 +17,7 @@ const Board = ({ board, handleClick, isRunning, tempo, step }) => {
         clearInterval(interval);
       }
     };
-  }, [isRunning, tempo]);
+  }, [isRunning, tempo,step]);
   return (
     <Table>
       <tbody>
