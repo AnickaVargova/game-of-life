@@ -1,16 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Board from "./Board";
 import data from "../data";
 import updateBoard from "../utils/updateBoard";
 import updateSquare from "../utils/updateSquare";
 import styled from "styled-components";
-
-const Table = styled.table`
-  border: 1px solid black;
-  margin: auto;
-  margin-top: 100px;
-  padding: 0;
-`;
 
 const Buttons = styled.div`
   display: flex;
@@ -41,34 +34,7 @@ const Tempo = styled.div`
 const App = () => {
   const [boardInfo, setBoardInfo] = useState(data);
   const [tempo, setTempo] = useState(500);
-  const [playGame, setPlayGame] = useState(null);
-
-  function startGame() {
-    if (!playGame) {
-      setPlayGame(
-        setInterval(
-          () => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo)),
-          tempo
-        )
-      );
-    }
-  }
-
-  useEffect(startGame, []);
-
-  function stopGame() {
-    if (playGame) {
-      setPlayGame((prevPlayGame) => {
-        clearInterval(prevPlayGame);
-        return null;
-      });
-    }
-  }
-
-  function resetGame() {
-    stopGame();
-    setBoardInfo(data);
-  }
+  const [isRunning, setRunning] = useState(false);
 
   function handleClick(index, rowIndex) {
     setBoardInfo((prevBoardInfo) =>
@@ -76,36 +42,36 @@ const App = () => {
     );
   }
 
-  function changeTempo(num) {
-    if (playGame) {
-      setPlayGame((prevPlayGame) => {
-        clearInterval(prevPlayGame);
-        return null;
-      });
-
-      setPlayGame(
-        setInterval(
-          () => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo)),
-          num
-        )
-      );
-    }
-    setTempo(() => num);
-  }
-
   return (
     <div className="App">
-      <Table>
-        <Board board={boardInfo} handleClick={handleClick} />
-      </Table>
+      <Board
+        board={boardInfo}
+        handleClick={handleClick}
+        isRunning={isRunning}
+        tempo={tempo}
+        step={() => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo))}
+      />
+
       <Buttons>
-        <Button onClick={stopGame}>Stop</Button>
-        <Button onClick={startGame}>Play</Button>
-        <Button onClick={resetGame}>Reset</Button>
+        <Button onClick={() => setRunning(true)}>Play</Button>
+        <Button onClick={() => setRunning(false)}>Stop</Button>
+        <Button
+          onClick={() => {
+            setRunning(false);
+            setBoardInfo(data);
+          }}
+        >
+          Reset
+        </Button>
       </Buttons>
       <Tempo>
         <span>Change the speed: </span>
-        <select value={tempo} onChange={(e) => changeTempo(e.target.value)}>
+        <select
+          value={tempo}
+          onChange={(e) => {
+            setTempo(e.target.value);
+          }}
+        >
           <option value="50">0.05 s (very fast)</option>
           <option value="300">0.3 s</option>
           <option value="500">0.5 s (medium)</option>
