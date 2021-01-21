@@ -36,17 +36,15 @@ const App = () => {
   const [tempo, setTempo] = useState(500);
   const [isRunning, setRunning] = useState(false);
 
-  function handleClick(index, rowIndex) {
-    setBoardInfo((prevBoardInfo) =>
-      updateSquare(prevBoardInfo, index, rowIndex)
-    );
-  }
-
   return (
     <div className="App">
       <Board
         board={boardInfo}
-        handleClick={handleClick}
+        handleClick={(index, rowIndex) =>
+          setBoardInfo((prevBoardInfo) =>
+            updateSquare(prevBoardInfo, index, rowIndex)
+          )
+        }
         isRunning={isRunning}
         tempo={tempo}
         step={() => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo))}
