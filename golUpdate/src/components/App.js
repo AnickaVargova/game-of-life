@@ -67,7 +67,7 @@ const App = () => {
         <select
           value={tempo}
           onChange={(e) => {
-            setTempo(e.target.value);
+            setTempo(parseInt(e.target.value));
           }}
         >
           <option value="50">0.05 s (very fast)</option>
