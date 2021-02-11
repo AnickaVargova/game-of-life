@@ -22,11 +22,11 @@ const boardInfo = [
 const expectedNeighbours = [2, 3, 2, 3, 5, 2, 4, 5, 4, 2, 3, 2];
 
 const expectedChangedBoard = [
-  [true,true,false],
-  [true,false,true],
-  [false,false,true],
-  [false,true,true]
-]
+  [true, true, false],
+  [true, false, true],
+  [false, false, false],
+  [true, true, true],
+];
 
 const expectedChangedSquare = [
   [false, true, false],

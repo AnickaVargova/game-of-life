@@ -1,30 +1,25 @@
 import countItemNeighbours from "./countItemNeighbours";
 
 function updateBoard(oldArr) {
-  let changedBoard = [];
-
-  let arr = oldArr.map(row=>row.slice());
+  let arr = oldArr.map((row) => row.slice());
 
   for (let j = 0; j < arr.length; j++) {
-    let changedRow = [];
     for (let i = 0; i < arr[j].length; i++) {
-      let livingNeighbours = countItemNeighbours(j, i, arr);
-
-      if (arr[j][i] && (livingNeighbours === 2 || livingNeighbours === 3)) {
+      let livingNeighbours = countItemNeighbours(j, i, oldArr);
+      let isAlive = arr[j][i];
+      if (isAlive && (livingNeighbours === 2 || livingNeighbours === 3)) {
         arr[j][i] = true;
-      } else if (arr[j][i] && (livingNeighbours < 2 || livingNeighbours > 3)) {
+      } else if (isAlive && (livingNeighbours < 2 || livingNeighbours > 3)) {
         arr[j][i] = false;
-      } else if (!arr[j][i] && livingNeighbours === 3) {
+      } else if (!isAlive && livingNeighbours === 3) {
         arr[j][i] = true;
       } else {
         arr[j][i] = false;
       }
-      changedRow.push(arr[j][i]);
     }
-    changedBoard.push(changedRow);
   }
- 
-  return changedBoard;
+
+  return arr;
 }
 
 export default updateBoard;
