@@ -6,15 +6,17 @@ const Cell = styled.td`
 `;
 
 const SquareBackground = styled.div`
-  background: ${({black}) => (black ? "black" : "white")};
+  background: ${({ black }) => (black ? "black" : "white")};
   height: 20px;
   width: 20px;
 `;
 
-const Square = ({ handleClick, squareInfo }) => (
-  <Cell onClick={handleClick}>
-    {squareInfo ? <SquareBackground black /> : <SquareBackground />}
-  </Cell>
-);
+const Square = ({ handleClick, squareInfo }) => {
+  return (
+    <Cell onClick={handleClick}>
+      {squareInfo ? <SquareBackground black /> : <SquareBackground />}
+    </Cell>
+  );
+};
 
 export default Square;

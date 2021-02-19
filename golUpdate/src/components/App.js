@@ -1,9 +1,6 @@
-import { useState } from "react";
 import Board from "./Board";
-import data from "../data";
-import updateBoard from "../utils/updateBoard";
-import updateSquare from "../utils/updateSquare";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 const Buttons = styled.div`
   display: flex;
@@ -32,31 +29,28 @@ const Tempo = styled.div`
 `;
 
 const App = () => {
-  const [boardInfo, setBoardInfo] = useState(data);
-  const [tempo, setTempo] = useState(500);
-  const [isRunning, setRunning] = useState(false);
+  const tempo = useSelector((state) => state.tempo);
+  const dispatch = useDispatch();
 
   return (
     <div className="App">
-      <Board
-        board={boardInfo}
-        handleClick={(index, rowIndex) =>
-          setBoardInfo((prevBoardInfo) =>
-            updateSquare(prevBoardInfo, index, rowIndex)
-          )
-        }
-        isRunning={isRunning}
-        tempo={tempo}
-        step={() => setBoardInfo((prevBoardInfo) => updateBoard(prevBoardInfo))}
-      />
+      <Board />
 
       <Buttons>
-        <Button onClick={() => setRunning(true)}>Play</Button>
-        <Button onClick={() => setRunning(false)}>Stop</Button>
+        <Button
+          onClick={() => dispatch({ type: "SET_RUNNING", payload: true })}
+        >
+          Play
+        </Button>
+        <Button
+          onClick={() => dispatch({ type: "SET_RUNNING", payload: false })}
+        >
+          Stop
+        </Button>
         <Button
           onClick={() => {
-            setRunning(false);
-            setBoardInfo(data);
+            dispatch({ type: "SET_RUNNING", payload: false });
+            dispatch({ type: "RESET" });
           }}
         >
           Reset
@@ -67,7 +61,7 @@ const App = () => {
         <select
           value={tempo}
           onChange={(e) => {
-            setTempo(parseInt(e.target.value));
+            dispatch({ type: "SET_TEMPO", payload: parseInt(e.target.value) });
           }}
         >
           <option value="50">0.05 s (very fast)</option>

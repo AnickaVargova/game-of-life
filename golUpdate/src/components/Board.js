@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Row from "./Row";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 const Table = styled.table`
   border: 1px solid black;
@@ -9,25 +10,27 @@ const Table = styled.table`
   padding: 0;
 `;
 
-const Board = ({ board, handleClick, isRunning, tempo, step }) => {
+const Board = () => {
+  const boardInfo = useSelector((state) => state.boardInfo);
+  const isRunning = useSelector((state) => state.isRunning);
+  const tempo = useSelector((state) => state.tempo);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const interval = isRunning ? setInterval(step, tempo) : null;
+    const interval = isRunning
+      ? setInterval(() => dispatch({ type: "UPDATE_BOARD" }), tempo)
+      : null;
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [isRunning, tempo, step]);
+  }, [isRunning, tempo, dispatch]);
   return (
     <Table>
       <tbody>
-        {board.map((row, rowIndex) => (
-          <Row
-            rowInfo={row}
-            key={rowIndex}
-            rowIndex={rowIndex}
-            handleClick={handleClick}
-          />
+        {boardInfo.map((row, rowIndex) => (
+          <Row key={rowIndex} rowIndex={rowIndex} />
         ))}
       </tbody>
     </Table>

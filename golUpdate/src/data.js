@@ -1,4 +1,5 @@
-const data = [
+const data = {
+  boardInfo: [
     [
       true,
       false,
@@ -439,6 +440,9 @@ const data = [
       false,
       true,
     ],
-  ];
+  ],
+  tempo: 500,
+  isRunning: false,
+};
 
-  export default data;
+export default data;
