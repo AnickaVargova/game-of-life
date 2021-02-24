@@ -2,6 +2,22 @@ import data from "./data";
 import updateSquare from "./utils/updateSquare";
 import updateBoard from "./utils/updateBoard";
 
+export const getBoard = (state) => state.boardInfo;
+export const getTempo = (state) => state.tempo;
+export const getIsRunning = (state) => state.isRunning;
+export const updateSquareAction = (index, rowIndex) => ({
+  type: "UPDATE_SQUARE",
+  payload: { index, rowIndex },
+});
+export const setTempoAction = (e) => ({
+  type: "SET_TEMPO",
+  payload: parseInt(e.target.value),
+});
+export const setRunningAction = (bool) => ({
+  type: "SET_RUNNING",
+  payload: bool,
+});
+
 function reducer(state = data, action) {
   switch (action.type) {
     case "UPDATE_SQUARE":
