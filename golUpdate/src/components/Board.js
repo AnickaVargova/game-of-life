@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Row from "./Row";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,18 +15,20 @@ const Board = () => {
   const boardInfo = useSelector(getBoard);
   const isRunning = useSelector(getIsRunning);
   const tempo = useSelector(getTempo);
+  const intervalRef = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const interval = isRunning
+    console.log("rendering");
+    intervalRef.current = isRunning
       ? setInterval(() => dispatch({ type: "UPDATE_BOARD" }), tempo)
       : null;
     return () => {
-      if (interval) {
-        clearInterval(interval);
+      if (intervalRef) {
+        clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, tempo, dispatch]);
+  }, [isRunning, tempo]);
   return (
     <Table>
       <tbody>
