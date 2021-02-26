@@ -19,7 +19,6 @@ const Board = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("rendering");
     intervalRef.current = isRunning
       ? setInterval(() => dispatch({ type: "UPDATE_BOARD" }), tempo)
       : null;
@@ -28,7 +27,7 @@ const Board = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, tempo]);
+  }, [isRunning, tempo, dispatch]);
   return (
     <Table>
       <tbody>
