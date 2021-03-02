@@ -1,7 +1,7 @@
 import Board from "./Board";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { setTempoAction, setRunningAction } from "../reducer";
+import { setTempoAction, setRunningAction, getTempo } from "../reducer";
 
 const Buttons = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Tempo = styled.div`
 `;
 
 const App = () => {
-  const tempo = useSelector((state) => state.tempo);
+  const tempo = useSelector(getTempo);
   const dispatch = useDispatch();
 
   return (
