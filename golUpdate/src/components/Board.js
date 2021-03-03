@@ -12,12 +12,13 @@ const Table = styled.table`
 const Board = ({ board, handleClick, isRunning, tempo, step }) => {
   useEffect(() => {
     const interval = isRunning ? setInterval(step, tempo) : null;
+
     return () => {
       if (interval) {
         clearInterval(interval);
       }
     };
-  }, [isRunning, tempo, step]);
+  }, [isRunning, tempo]);
   return (
     <Table>
       <tbody>
